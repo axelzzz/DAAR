@@ -73,7 +73,6 @@ public class Dfa {
 				
 					case RegEx.ALTERN :	
 						
-						System.out.println("altern");
 						Automate.incCpt();
 						
 						Automate a1 = epsilonAutomation(r1, cpt, nbStates);
@@ -84,7 +83,6 @@ public class Dfa {
 					
 					case RegEx.CONCAT :
 					
-						System.out.println("concat");
 						Automate.incCpt();
 						
 						Automate c1 = epsilonAutomation(r1, cpt, nbStates);
@@ -97,7 +95,6 @@ public class Dfa {
 				
 					case RegEx.ETOILE :
 						
-						System.out.println("etoile");
 						Automate.incCpt();
 						
 						return epsilonAutomation(r1, cpt, nbStates)
@@ -136,7 +133,11 @@ public class Dfa {
 		
 		
 		Automate test = epsilonAutomation(tree, 0, nbStates(tree) );
-		test.afficherAutomate();
+		
+		//test.afficherAutomate();
+		
+		test.afficherFinalState();
+		test.afficherStartingState();
 	}
 
 }

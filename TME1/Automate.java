@@ -6,8 +6,9 @@ import java.util.List;
 public class Automate {
 
 	private int[][] automata;
-	private List<Integer> states;
 	private int[] epsTransit;
+	private boolean[] isFinalState;
+	private boolean[] isStartingState;
 	private final static int nbCol = 256;
 	public int nbStates;
 	
@@ -17,28 +18,58 @@ public class Automate {
 	public Automate(int nbStates, int labelTransit) {
 		
 		this.automata = new int[nbStates][nbCol];
-		this.states = new ArrayList<>();
-		this.epsTransit = new int[nbStates];
 		
-		this.initAutomata();
-		automata[cpt][labelTransit] = cpt+1;
+		for(int i=0 ; i<nbStates ; i++) {
+			for(int j=0 ; j<nbCol ; j++) {
+				this.automata[i][j] = -1;
+			}
+		}
+		
+		this.epsTransit = new int[nbStates];		
+		this.isFinalState = new boolean[nbStates];
+		this.isStartingState = new boolean[nbStates];
 		this.nbStates = nbStates;
-		//afficherAutomate();
+		
+		for(int i=0 ; i<nbStates ; i++) {
+			
+			this.isFinalState[i] = false;
+			this.isStartingState[i] = false;
+		}
+		
+		isFinalState[cpt+1] = true;
+		isStartingState[cpt] = true;
+		
+		automata[cpt][labelTransit] = cpt+1;		
 		cpt+=2;
 		
 	}
 	
 	
 	/*automata for nodes*/
-	public Automate(int nbStates, boolean isNode) {
+	public Automate(int nbStates, boolean isNode, int startingState, int finalState) {
 		
 		this.automata = new int[nbStates][nbCol];
-		this.states = new ArrayList<>();
+		
+		for(int i=0 ; i<nbStates ; i++) {
+			for(int j=0 ; j<nbCol ; j++) {
+				this.automata[i][j] = -1;
+			}
+		}
+		
 		this.epsTransit = new int[nbStates];
-		
-		this.initAutomata();
-		
+		this.isFinalState = new boolean[nbStates];
+		this.isStartingState = new boolean[nbStates];		
 		this.nbStates = nbStates;
+		
+		
+		for(int i=0 ; i<nbStates ; i++) {
+			
+			this.isFinalState[i] = false;
+			this.isStartingState[i] = false;
+		}
+		
+		isFinalState[finalState] = true;
+		isStartingState[startingState] = true;
 	}
 	
 	public List<Integer> cloneList(List<Integer> toClone) {
@@ -53,30 +84,37 @@ public class Automate {
 		return res;		
 	}
 	
+	
 	public int[][] getAutomata() { return automata; }
-	
-	public List<Integer> getStates(){ return states; }
-	
-	public int getNbStates() { return states.size(); }
 	
 	public int[] getEpsTransit() { return epsTransit; }
 	
-	public void setStates(List<Integer> s) { states = cloneList(s); }
-	
-	public static void incCpt() { Automate.cpt++; }
+	public int getNbStates() { return nbStates; }
 	
 	public static int getCpt() { return Automate.cpt; }
 	
 	public void setAutomata(int[][] toSet) { this.automata = toSet; }
 	
-	public void initAutomata() {
+	public static void incCpt() { Automate.cpt++; }
+	
+
+	public int getIndexOfStartingState() {
+		
 		for(int i=0 ; i<nbStates ; i++)
-			for(int j=0 ; j<nbCol ; j++) {
-				this.automata[i][j] = -1;
-			}
+			if(isStartingState[i])
+				return i;
+		return -1;
 	}
 	
-	/*Treatment methods*/	
+	public int getIndexOfFinalState() {
+		
+		for(int i=0 ; i<nbStates ; i++)
+			if(isFinalState[i])
+				return i;
+		return -1;
+	}
+	
+	/*Display methods*/	
 	public void afficherAutomate() {
 		
 		for(int i=0 ; i<nbStates ; i++) {
@@ -85,9 +123,9 @@ public class Automate {
 					System.out.print(automata[i][j]+"      ");
 				else {
 					if(j/10 > 0)
-						System.out.print(automata[i][j]+"     ");
-					else
 						System.out.print(automata[i][j]+"    ");
+					else
+						System.out.print(automata[i][j]+"   ");
 				}					
 			}
 			System.out.println();
@@ -101,9 +139,31 @@ public class Automate {
 	
 	
 	
+
+	public void afficherFinalState() {
+		
+		System.out.println("\nFinal States ");
+		
+		for(int i=0 ; i<nbStates ; i++) 
+			System.out.print(isFinalState[i]+" ");
+	}
+	
+	
+	
+	public void afficherStartingState() {
+		
+		System.out.println("\nStarting States ");
+		
+		for(int i=0 ; i<nbStates ; i++) 
+			System.out.print(isStartingState[i]+" ");
+	}
+	
+	
+	
+	/*Treatment methods*/
 	public Automate fusionAutomataAltern(Automate toFusion) {
 		
-		Automate fusion = new Automate(nbStates, true);
+		Automate fusion = new Automate(nbStates, true, this.getIndexOfStartingState()-1, this.getIndexOfFinalState()+1);
 		int[][] automataFusion = fusion.getAutomata();
 		
 		for(int i=0 ; i<this.nbStates ; i++)
@@ -122,7 +182,7 @@ public class Automate {
 	
 	public Automate fusionAutomataConcat(Automate toFusion) {
 		
-		Automate fusion = new Automate(nbStates, true);
+		Automate fusion = new Automate(nbStates, true, this.getIndexOfStartingState(), toFusion.getIndexOfFinalState());
 		int[][] automataFusion = fusion.getAutomata();
 		
 		for(int i=0 ; i<this.nbStates ; i++)
@@ -142,7 +202,7 @@ public class Automate {
 
 	public Automate fusionAutomataEtoile() {
 		
-		Automate fusion = new Automate(nbStates, true);
+		Automate fusion = new Automate(nbStates, true, this.getIndexOfStartingState()-1, this.getIndexOfFinalState()+1);
 		int[][] automataFusion = fusion.getAutomata();
 		
 		for(int i=0 ; i<this.nbStates ; i++)
