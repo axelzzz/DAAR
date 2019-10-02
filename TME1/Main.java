@@ -3,7 +3,7 @@ package TME1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dfa {
+public class Main {
 	
 	
 	public static boolean isLeaf(int value) {
@@ -134,10 +134,11 @@ public class Dfa {
 		
 		Automate test = epsilonAutomation(tree, 0, nbStates(tree) );
 		
-		//test.afficherAutomate();
+		test.afficherAutomate();
 		
 		test.afficherFinalState();
 		test.afficherStartingState();
+		test.afficherEpsTransit();
 	}
 
 }
