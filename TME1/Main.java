@@ -78,6 +78,8 @@ public class Main {
 						Automate a1 = epsilonAutomation(r1, cpt, nbStates);
 						Automate a2 = epsilonAutomation(r2, cpt, nbStates);
 						
+						Automate.incCpt();
+						
 						return a1.fusionAutomataAltern(a2);
 					
 					
@@ -97,8 +99,11 @@ public class Main {
 						
 						Automate.incCpt();
 						
-						return epsilonAutomation(r1, cpt, nbStates)
-								.fusionAutomataEtoile();
+						Automate e1 = epsilonAutomation(r1, cpt, nbStates);
+						
+						Automate.incCpt();
+						
+						return e1.fusionAutomataEtoile();
 						
 					default :
 						
@@ -131,14 +136,20 @@ public class Main {
 		System.out.println(tree.toString());
 		System.out.println("nb states "+nbStates(tree));
 		
+		//a|bc*
+		Automate a = epsilonAutomation(tree, 0, nbStates(tree) );
 		
-		Automate test = epsilonAutomation(tree, 0, nbStates(tree) );
+		a.afficherAutomate();
 		
-		test.afficherAutomate();
+		a.afficherFinalState();
+		a.afficherStartingState();
+		a.afficherEpsTransit();
 		
-		test.afficherFinalState();
-		test.afficherStartingState();
-		test.afficherEpsTransit();
+		
+		
+		
+		//S(a|g|r)+on ou S[a-z]+on
+		
 	}
 
 }

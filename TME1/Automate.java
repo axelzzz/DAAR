@@ -139,10 +139,20 @@ public class Automate {
 	
 	
 	
+	
+	
+	public void displayPertinentColumns() {
+		
+		for(int i=0 ; i<nbStates ; i++) {
+			for(int j=0 ; j<nbCol ; j++) {
+				if(automata[i][j] != -1) 
+					System.out.println(i+" --"+Character.toString(j)+"--> "+automata[i][j]);
+			}
+		}
+	}
+	
 
 	public void afficherFinalState() {
-		
-		System.out.println("\nFinal States ");
 		
 		for(int i=0 ; i<nbStates ; i++) 
 			System.out.print(isFinalState[i]+" ");
@@ -151,8 +161,6 @@ public class Automate {
 	
 	
 	public void afficherStartingState() {
-		
-		System.out.println("\nStarting States ");
 		
 		for(int i=0 ; i<nbStates ; i++) 
 			System.out.print(isStartingState[i]+" ");
@@ -175,7 +183,7 @@ public class Automate {
 	/*Treatment methods*/
 	public Automate fusionAutomataAltern(Automate toFusion) {
 		
-		Automate fusion = new Automate(nbStates, true, this.getNumberOfStartingState()-1, this.getNumberOfFinalState()+1);
+		Automate fusion = new Automate(nbStates, true, this.getNumberOfStartingState()-1, toFusion.getNumberOfFinalState()+1);
 		int[][] automataFusion = fusion.getAutomata();
 		
 		for(int i=0 ; i<this.nbStates ; i++) {
@@ -253,6 +261,7 @@ public class Automate {
 		
 	}
 
+	
 	public Automate fusionAutomataEtoile() {
 		
 		Automate fusion = new Automate(nbStates, true, this.getNumberOfStartingState()-1, this.getNumberOfFinalState()+1);
@@ -275,6 +284,12 @@ public class Automate {
 		
 		return fusion;
 	}
+	
+	
+	/*public Automate determiniser() {
+		
+		
+	}*/
 	
 	
 }

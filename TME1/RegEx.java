@@ -44,6 +44,25 @@ public class RegEx {
       try {
         RegExTree ret = parse();
         System.out.println("  >> Tree result: "+ret.toString()+".");
+        
+        Automate a = Main.epsilonAutomation(ret, 0, Main.nbStates(ret) );
+		
+        System.out.println("\nAutomata result");
+		a.afficherAutomate();
+		
+		System.out.println("Final States ");
+		a.afficherFinalState();
+		System.out.println("\n\nStarting States ");
+		a.afficherStartingState();		
+		System.out.println();
+		
+		System.out.println("\nTransitions");
+		a.displayPertinentColumns();
+		
+		System.out.println("\nEpsilon transitions");
+		a.afficherEpsTransit();
+		
+		
       } catch (Exception e) {
         System.err.println("  >> ERROR: syntax error for regEx \""+regEx+"\".");
       }
