@@ -25,13 +25,18 @@ public class RegEx {
   //MAIN
   public static void main(String arg[]) {
     System.out.println("Welcome to Bogota, Mr. Thomas Anderson.");
-    if (arg.length!=0) {
-      regEx = arg[0];
-    } else {
-      Scanner scanner = new Scanner(System.in);
-      System.out.print("  >> Please enter a regEx: ");
-      regEx = scanner.next();
-    }
+//    if (arg.length!=0) {
+//      regEx = arg[0];
+//    } else {
+//      Scanner scanner = new Scanner(System.in);
+//      System.out.print("  >> Please enter a regEx: ");
+//      regEx = scanner.next();
+//    }
+    //regEx = "a";
+    //regEx = "a|b";
+    //regEx = "a|bc*";
+    regEx = "a*b|c";
+    //regEx = "S(a|g|r)*on";
     System.out.println("  >> Parsing regEx \""+regEx+"\".");
     System.out.println("  >> ...");
     
@@ -44,20 +49,17 @@ public class RegEx {
       try {
         RegExTree ret = parse();
         System.out.println("  >> Tree result: "+ret.toString()+".");
-        
+       
         Automate a = Main.epsilonAutomation(ret, 0, Main.nbStates(ret) );
-		
-        System.out.println("\nAutomata result");
-		a.afficherAutomate();
-		
-		System.out.println("Final States ");
-		a.afficherFinalState();
-		System.out.println("\n\nStarting States ");
-		a.afficherStartingState();		
+        
+        System.out.println("nb etats : "+a.getNbStates());
+		System.out.println("\nStarting States : "+a.getNumberOfStartingState());
+		System.out.println("Final States : "+a.getNumberOfFinalState());
+			
 		System.out.println();
 		
 		System.out.println("\nTransitions");
-		a.displayPertinentColumns();
+		a.displayTransitions();
 		
 		System.out.println("\nEpsilon transitions");
 		a.afficherEpsTransit();

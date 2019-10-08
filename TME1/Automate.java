@@ -141,7 +141,7 @@ public class Automate {
 	
 	
 	
-	public void displayPertinentColumns() {
+	public void displayTransitions() {
 		
 		for(int i=0 ; i<nbStates ; i++) {
 			for(int j=0 ; j<nbCol ; j++) {
@@ -149,21 +149,6 @@ public class Automate {
 					System.out.println(i+" --"+Character.toString(j)+"--> "+automata[i][j]);
 			}
 		}
-	}
-	
-
-	public void afficherFinalState() {
-		
-		for(int i=0 ; i<nbStates ; i++) 
-			System.out.print(isFinalState[i]+" ");
-	}
-	
-	
-	
-	public void afficherStartingState() {
-		
-		for(int i=0 ; i<nbStates ; i++) 
-			System.out.print(isStartingState[i]+" ");
 	}
 	
 	

@@ -15,9 +15,9 @@ public class Main {
 	}
 	
 	
-	public static boolean isNodeConcatAltern(int value) {
+	public static boolean isNodeAltern(int value) {
 		
-		return ( (value == RegEx.ALTERN) || (value == RegEx.CONCAT) );
+		return (value == RegEx.ALTERN);
 			
 	}
 	
@@ -36,13 +36,13 @@ public class Main {
 			if( isLeaf(ret.root) ) 				
 				return 2;			
 			else {				
-				if( isNodeConcatAltern(ret.root) ) 
+				if( isNodeAltern(ret.root) ) 
 					return 2 + nbStates(ret.subTrees.get(0)) + nbStates(ret.subTrees.get(1)); 				
 				else {					
 					if( isNodeEtoile(ret.root) ) 
-						return nbStates(ret.subTrees.get(0));					
+						return 2 + nbStates(ret.subTrees.get(0));					
 					else
-						return 0;
+						return nbStates(ret.subTrees.get(0)) + nbStates(ret.subTrees.get(1));
 				}
 				
 			}
@@ -51,7 +51,8 @@ public class Main {
 	
 	public static Automate epsilonAutomation(RegExTree ret, int cpt, int nbStates) {
 		
-
+		
+		//System.out.println("nb states "+nbStates);
 		if( ret == null ) return null;
 		
 		else {
@@ -67,28 +68,29 @@ public class Main {
 				if(ret.subTrees.size() > 1) 
 					r2 = ret.subTrees.get(1);
 					
-				
-				
+								
 				switch(ret.root) {
 				
 					case RegEx.ALTERN :	
-						
+
 						Automate.incCpt();
 						
 						Automate a1 = epsilonAutomation(r1, cpt, nbStates);
 						Automate a2 = epsilonAutomation(r2, cpt, nbStates);
 						
 						Automate.incCpt();
-						
+
 						return a1.fusionAutomataAltern(a2);
 					
 					
 					case RegEx.CONCAT :
 					
-						Automate.incCpt();
 						
+						//Automate.incCpt();
 						Automate c1 = epsilonAutomation(r1, cpt, nbStates);
 						Automate c2 = epsilonAutomation(r2, cpt, nbStates);
+						
+						
 						
 						return c1.fusionAutomataConcat(c2);
 					
@@ -139,10 +141,11 @@ public class Main {
 		//a|bc*
 		Automate a = epsilonAutomation(tree, 0, nbStates(tree) );
 		
-		a.afficherAutomate();
+		//a.afficherAutomate();
+		a.displayTransitions();
 		
-		a.afficherFinalState();
-		a.afficherStartingState();
+		System.out.println("starting state of a : "+a.getNumberOfStartingState());
+		System.out.println("final state of a : "+a.getNumberOfFinalState());
 		a.afficherEpsTransit();
 		
 		
