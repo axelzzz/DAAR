@@ -271,10 +271,66 @@ public class Automate {
 	}
 	
 	
-	/*public Automate determiniser() {
-		
-		
-	}*/
 	
+	
+	public EnsembleEtats[] tabEpsTransitEnsembleEtats() {
+		
+		EnsembleEtats[] tab = new EnsembleEtats[nbStates];
+		
+		for(int i=0 ; i<nbStates ; i++) {
+			
+			EnsembleEtats ensemble = new EnsembleEtats();
+			ensemble.addEtat(Integer.valueOf(i));
+			
+			for(int j=0 ; j<nbStates ; j++) {
+				
+				if(epsTransit[i][j] != -1)
+					ensemble.addEtat(Integer.valueOf(j));					
+			}
+			
+			tab[i] = ensemble;
+		}
+		
+		return tab;
+	}
+	
+	
+	
+	
+	public void afficherTabEpsTransitEnsembleEtats(EnsembleEtats[] tab) {
+		
+		for(int i=0 ; i<nbStates ; i++) {
+			System.out.print("L etat "+i+" a une eps transit vers les etats : ");
+			
+				
+			if(tab[i].getEnsemble().size() > 0)
+				for(Integer state:tab[i].getEnsemble())
+					System.out.print(state+" ");
+			
+			System.out.println();
+		}
+		
+	}
+	
+	
+	
+	/*
+	public int[][] isThereEpsTransit(int[][] epsTransit) {
+		
+		int[][] mat = new int[nbStates][nbStates];
+		
+		for(int i=0 ; i<epsTransit.length ; i++) {
+			for(int j=0 ; j<epsTransit[0].length ; j++) {
+				if(epsTransit[i][j] != -1) {
+					System.out.println(i+" --E--> "+epsTransit[i][j]);
+					mat[i][epsTransit[i][j]] = 1;
+				}
+			}
+		}
+		
+		
+		return mat;
+	}
+	*/
 	
 }

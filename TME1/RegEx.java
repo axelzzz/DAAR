@@ -35,8 +35,8 @@ public class RegEx {
     //regEx = "a";
     //regEx = "a|b";
     //regEx = "a|bc*";
-    regEx = "a*b|c";
-    //regEx = "S(a|g|r)*on";
+    //regEx = "a*b|c";
+    regEx = "S(a|g|r)*on";
     System.out.println("  >> Parsing regEx \""+regEx+"\".");
     System.out.println("  >> ...");
     
@@ -64,6 +64,10 @@ public class RegEx {
 		System.out.println("\nEpsilon transitions");
 		a.afficherEpsTransit();
 		
+		System.out.println("test ens etats");
+		a.afficherTabEpsTransitEnsembleEtats(a.tabEpsTransitEnsembleEtats());
+		
+		//a.isThereEpsTransit(a.getEpsTransit());
 		
       } catch (Exception e) {
         System.err.println("  >> ERROR: syntax error for regEx \""+regEx+"\".");
