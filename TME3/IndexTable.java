@@ -204,8 +204,7 @@ public class IndexTable {
 	          /*on blackliste les mots de taille < 3*/
 	          if (word.length() > 2 && !blackList.contains(word)) {         	
 	        	
-	        	  
-		          /*on calcule les index dans la ligne ou se trouve le mot courant*/	
+	              /*on calcule les index dans la ligne ou se trouve le mot courant*/	
 		          List<IndexWrapper> indexes = finder.findIndexesForKeyword(word);
 		          //finder.displayIndexes(indexes, word);
 		          ArrayList<Integer> indx = finder.indexWrapperToIndexList(indexes);
@@ -256,12 +255,12 @@ public class IndexTable {
     			   	
     }
     
-    
+    /*
     if(display) {
     	for(StringPosition sp:finalListPositions)
         	System.out.println(sp.displayWordPos());
     }
-    
+    */
     
     
     //System.out.println("il y a "+numLigne+" lignes");
