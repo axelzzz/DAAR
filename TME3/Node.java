@@ -4,48 +4,49 @@ import java.util.ArrayList;
 
 public class Node {
 
-	/*l arete reliant au pere*/
-	private String substringPere;
-	/*lien vers les fils*/
-	private ArrayList<Edge> substringsFils;
+	private String label;
 	private ArrayList<Position> positions;
 	
+	/*lien vers les fils*/
+	private ArrayList<RadixTree> fils;
 	
 	
-	public Node(String substringPere) {
+	public Node() {
 		
-		this.substringPere = substringPere;
-		substringsFils = new ArrayList<>();
+		label = null;
 		positions = new ArrayList<>();
+		fils = new ArrayList<>();
 	}
 	
 	
-	public Node(String substringPere, ArrayList<Edge> lf, ArrayList<Position> lp) {
+	public Node(String label) {
 		
-		this.substringPere = substringPere;
-		substringsFils = lf;
-		positions = lp;
+		this.label = label;
+		positions = new ArrayList<>();
+		fils = new ArrayList<>();
 	}
 	
 	
+	public Node(String label, ArrayList<Position> pos) {
+		
+		this.label = label;
+		positions = pos;
+		fils = new ArrayList<>();
+	}
 	
-	public String getSubstringPere() { return substringPere; }
+	public String getLabel() { return label; }
 	
-	public void setSubstringPere(String s) { substringPere = s; }
-	
-	public ArrayList<Edge> getSubstringsFils() { return substringsFils; }
-	
-	public void setSubstringsFils(ArrayList<Edge> l) { substringsFils = l; }
+	public void setLabel(String l) { label = l; }
 	
 	public ArrayList<Position> getPositions() { return positions; }
 	
-	public void setPositions(ArrayList<Position> p) { positions = p; }
+	public void setPosition(ArrayList<Position> p) { positions = p; }
+	
+	public ArrayList<RadixTree> getFils() { return fils; }
+	
+	public void setFils(ArrayList<RadixTree> rt) { fils = rt; }
 	
 	
 	
-	
-	public boolean isLeaf() {
-		
-		return substringsFils.size() == 0;
-	}
+	public boolean isLeaf() { return fils.size() == 0; }
 }

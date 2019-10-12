@@ -84,5 +84,8 @@ public class StringPosition {
 						
 		return false;	
 	}
+	
+	
+	
 
 }

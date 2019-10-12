@@ -5,10 +5,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,10 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.stream.Stream;
 
 
-public class Main {
+public class IndexTable {
 	
 	
 	public static void displayMap(ArrayList<Map.Entry<String, Integer>> map) {
@@ -143,8 +140,14 @@ public class Main {
 		 return blackList;
 	}
 	
-	
-  public static void main(String arg[]) throws Exception {
+	/*nbLigneBreak : ligne a laquelle on arrete le traitement
+	 * doBreak : si on veut arreter le traitement a une certaine ligne
+	 * display : true pour afficher les tables sur la console
+	 * book : name of book*/
+  public static ArrayList<StringPosition> processIndexTable(int nbLigneBreak, 
+		  													boolean doBreak,
+		  													boolean display,
+		  													String book) throws Exception {
 	  
 	  //FAIRE STREEEEAAAAAAAMMMMMM
 	  /*
@@ -164,13 +167,11 @@ public class Main {
 	  
 	  ArrayList<String> blackList = getBlackList();
 	  
-	  String fichier1 = "56667-0.txt";
 	  
-	  /*CHANGER PATH DU FICHIER EN CONSEQUENCE*/
-	  File file = new File("D:\\M2\\DAAR\\workspace\\DAAR\\TME3\\"+fichier1);
-	  // BufferedReader br = new BufferedReader(new FileReader("D:\\M2\\DAAR\\workspace\\DAAR\\TME3HX\\56667-0.txt"));
-		  
-	  /*************************REMPLACER BUFFEREDREADER PAR STREAM****************************/
+	  String fichier1 = book;
+	
+	  File file = new File(fichier1);
+	  
 	  BufferedReader br = new BufferedReader(
 			  				new InputStreamReader( new FileInputStream(file), "UTF-8") );
 	    
@@ -189,8 +190,8 @@ public class Main {
 	      
 	    String[] wordsSplit = readLine.split("[^a-zA-Z'-]"); 
 	      
-	    if(numLigne == 1) 
-	  		System.out.println("1er ligne :"+readLine);
+	    //if(numLigne == 1) 
+	  	//	System.out.println("1er ligne :"+readLine);
 	      
 	    WholeWordIndexFinder finder = new WholeWordIndexFinder(readLine);
 	      
@@ -198,11 +199,12 @@ public class Main {
 	    for (String word : wordsSplit) {
 	    	     	  
 	    	  /*choisir de mettre en lower case ou pas, attention aux noms*/	
-	          word = word.toLowerCase();	
+	          //word = word.toLowerCase();	
 	    	
 	          /*on blackliste les mots de taille < 3*/
 	          if (word.length() > 2 && !blackList.contains(word)) {         	
 	        	
+	        	  
 		          /*on calcule les index dans la ligne ou se trouve le mot courant*/	
 		          List<IndexWrapper> indexes = finder.findIndexesForKeyword(word);
 		          //finder.displayIndexes(indexes, word);
@@ -223,7 +225,8 @@ public class Main {
 	         }    	 
 	     }
 	      
-	      //if(numLigne == 500) break;
+	      if(doBreak)
+	    	  if(numLigne == nbLigneBreak) break;
 	      numLigne++;
 	     
 	  }
@@ -254,9 +257,11 @@ public class Main {
     }
     
     
+    if(display) {
+    	for(StringPosition sp:finalListPositions)
+        	System.out.println(sp.displayWordPos());
+    }
     
-    for(StringPosition sp:finalListPositions)
-    	System.out.println(sp.displayWordPos());
     
     
     //System.out.println("il y a "+numLigne+" lignes");
@@ -275,11 +280,14 @@ public class Main {
     /*map qui contient les mots tries par ordre d occurrence*/
     ArrayList<Map.Entry<String, Integer>> mapSortedWords = SortMap(wordsCount); 
     
+    /*on cree un fichier pour la table d index avec nb occ et un pour index table sans occ */
+    File fileIndexTableOcc = new File("fileIndexTableOcc"+fichier1); 
+    fileIndexTableOcc.createNewFile(); 
+    BufferedWriter out = new BufferedWriter(new FileWriter(fileIndexTableOcc));
     
-    File writename = new File("output"+fichier1); 
-    writename.createNewFile(); 
-    BufferedWriter out = new BufferedWriter(new FileWriter(writename));
-    
+    File fileIndexTable = new File("fileIndexTable"+fichier1); 
+    fileIndexTable.createNewFile(); 
+    BufferedWriter out2 = new BufferedWriter(new FileWriter(fileIndexTable));
     
     System.out.println("<----------------------------------------->");
     for (int i = 0 ; i < mapSortedWords.size() ; i++) {
@@ -293,15 +301,25 @@ public class Main {
     	
     	/*on ecrit dans un fichier*/
     	out.write(" \""+so.getWord()+"\" "+so.getNbOcc()+" ");
-    	System.out.print(" \""+so.getWord()+"\" "+so.getNbOcc()+" ");
+    	out2.write(" \""+so.getWord()+"\"");
     	
+    	if(display)
+    		System.out.print(" \""+so.getWord()+"\" "+so.getNbOcc()+" ");
+    	 	
         for(Position p:lp) {
+        	
         	out.write(p.displayPosition());
-        	System.out.print( p.displayPosition() );
+        	out2.write(p.displayPosition());
+        	
+        	if(display)
+        		System.out.print( p.displayPosition() );        	
         }
         
         out.write("\n");
-        System.out.println();
+        out2.write("\n");
+        
+        if(display)
+        	System.out.println();
     }
 
    
@@ -311,7 +329,11 @@ public class Main {
     }*/
     out.flush(); 
     out.close();
+    
+    out2.flush(); 
+    out2.close();
 
+    return finalListPositions;
 
   }
 
@@ -327,6 +349,19 @@ public class Main {
     });
 
     return list;
+  }
+  
+  
+  
+  
+  public static void main(String[] args) {
+	  
+	  try {
+		ArrayList<StringPosition> finalLsp = processIndexTable(100, true, true, "56667-0.txt");
+	} catch (Exception e) {
+		
+		e.printStackTrace();
+	}
   }
 
 
