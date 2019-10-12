@@ -146,7 +146,7 @@ public class Main {
 	
   public static void main(String arg[]) throws Exception {
 	  
-	  
+	  //FAIRE STREEEEAAAAAAAMMMMMM
 	  /*
 	  String fileName = "D:\\\\M2\\\\DAAR\\\\workspace\\\\DAAR\\\\TME3HX\\\\56667-0.txt";
 
@@ -164,10 +164,10 @@ public class Main {
 	  
 	  ArrayList<String> blackList = getBlackList();
 	  
-	  
+	  String fichier1 = "56667-0.txt";
 	  
 	  /*CHANGER PATH DU FICHIER EN CONSEQUENCE*/
-	  File file = new File("D:\\M2\\DAAR\\workspace\\DAAR\\TME3\\56667-0.txt");
+	  File file = new File("D:\\M2\\DAAR\\workspace\\DAAR\\TME3\\"+fichier1);
 	  // BufferedReader br = new BufferedReader(new FileReader("D:\\M2\\DAAR\\workspace\\DAAR\\TME3HX\\56667-0.txt"));
 		  
 	  /*************************REMPLACER BUFFEREDREADER PAR STREAM****************************/
@@ -198,7 +198,7 @@ public class Main {
 	    for (String word : wordsSplit) {
 	    	     	  
 	    	  /*choisir de mettre en lower case ou pas, attention aux noms*/	
-	          //word = word.toLowerCase();	
+	          word = word.toLowerCase();	
 	    	
 	          /*on blackliste les mots de taille < 3*/
 	          if (word.length() > 2 && !blackList.contains(word)) {         	
@@ -272,29 +272,43 @@ public class Main {
       }
     }
 
-
+    /*map qui contient les mots tries par ordre d occurrence*/
     ArrayList<Map.Entry<String, Integer>> mapSortedWords = SortMap(wordsCount); 
     
+    
+    File writename = new File("output"+fichier1); 
+    writename.createNewFile(); 
+    BufferedWriter out = new BufferedWriter(new FileWriter(writename));
+    
+    
     System.out.println("<----------------------------------------->");
-    for (Map.Entry<String, Integer> e : mapSortedWords) {
+    for (int i = 0 ; i < mapSortedWords.size() ; i++) {
     	
+    	Entry<String, Integer> e = mapSortedWords.get(i);
+    	    	
+    	/*on remplit la table d index*/
     	StringOccurrence so = new StringOccurrence(  e.getKey(), e.getValue().intValue() );
     	ArrayList<Position> lp = getPositionsOfWordInListOfStringPosition(finalListPositions, e.getKey() );
     	indexTable.put(so,  lp);
-    	System.out.print(" \""+so.getWord()+"\" "+so.getNbOcc()+" " );
-        for(Position p:lp)
+    	
+    	/*on ecrit dans un fichier*/
+    	out.write(" \""+so.getWord()+"\" "+so.getNbOcc()+" ");
+    	System.out.print(" \""+so.getWord()+"\" "+so.getNbOcc()+" ");
+    	
+        for(Position p:lp) {
+        	out.write(p.displayPosition());
         	System.out.print( p.displayPosition() );
+        }
+        
+        out.write("\n");
         System.out.println();
     }
 
-    //displayMap(list);
+   
     
-    File writename = new File("output.txt"); 
-    writename.createNewFile(); 
-    BufferedWriter out = new BufferedWriter(new FileWriter(writename));
-    for (int i = 0; (i < mapSortedWords.size()) && (mapSortedWords.get(i).getValue()<10) ; i++) {
+    /*for (int i = 0; (i < mapSortedWords.size()) && (mapSortedWords.get(i).getValue()<10) ; i++) {
       out.write(mapSortedWords.get(i).getKey()+"\r\n");
-    }
+    }*/
     out.flush(); 
     out.close();
 
