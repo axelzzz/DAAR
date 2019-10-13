@@ -271,7 +271,7 @@ public class Automate {
 	}
 	
 	
-	
+	/*
 	
 	public EnsembleEtats[] tabEpsTransitEnsembleEtats() {
 		
@@ -312,7 +312,7 @@ public class Automate {
 		
 	}
 	
-	
+	*/
 	
 	/*
 	public int[][] isThereEpsTransit(int[][] epsTransit) {

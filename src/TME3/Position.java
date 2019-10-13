@@ -19,6 +19,6 @@ public class Position {
 	}
 	
 	public String displayPosition() {
-		return "(L°"+numLigne+", off "+offset+") ";
+		return "(L "+numLigne+", off "+offset+") ";
 	}
 }

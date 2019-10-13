@@ -209,7 +209,7 @@ public class IndexTable {
 		          //finder.displayIndexes(indexes, word);
 		          ArrayList<Integer> indx = finder.indexWrapperToIndexList(indexes);
 		          
-		          /*on definit les positions (n°L, offset) du mot*/
+		          /*on definit les positions (num L, offset) du mot*/
 		          StringPosition sp = new StringPosition(word);
 		          
 		          for(Integer i:indx)         	 

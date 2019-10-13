@@ -55,7 +55,7 @@ public class StringPosition {
 	
 	
 	
-	/*methode qui va regrouper à partir de plusieurs StringPosition, 
+	/*methode qui va regrouper a partir de plusieurs StringPosition, 
 	 * toutes les positions du mot qu on veut dans une StringPosition*/
 	public StringPosition allPosOfString(ArrayList<StringPosition> sps) {
 		

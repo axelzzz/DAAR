@@ -3,7 +3,7 @@ package TME2;
 public class KMPMatching {
 	
 	
-	/*retourne vrai si le facteur est trouvé dans le texte*/
+	/*retourne vrai si le facteur est trouve dans le texte*/
 	public static boolean match(char[] facteur,								
 								char[] texte,
 								 int[] retenue) {

@@ -14,7 +14,7 @@ public class RegEx {
 
   static final int PARENTHESEOUVRANT = 0x16641664;
   static final int PARENTHESEFERMANT = 0x51515151;
-  static final int DOT = 0xD07;
+  static final int DOT = 46;
   
   //REGEX
   private static String regEx;
@@ -33,10 +33,10 @@ public class RegEx {
 //      regEx = scanner.next();
 //    }
     //regEx = "a";
-    //regEx = "a|b";
-    //regEx = "a|bc*";
+    //regEx = ".|b";
+    //regEx = ".|bc*";
     //regEx = "a*b|c";
-    regEx = "S(a|g|r)*on";
+    regEx = "S(a|g|r)*.n";
     System.out.println("  >> Parsing regEx \""+regEx+"\".");
     System.out.println("  >> ...");
     
@@ -52,6 +52,7 @@ public class RegEx {
        
         Automate a = Main.epsilonAutomation(ret, 0, Main.nbStates(ret) );
         
+        
         System.out.println("nb etats : "+a.getNbStates());
 		System.out.println("\nStarting States : "+a.getNumberOfStartingState());
 		System.out.println("Final States : "+a.getNumberOfFinalState());
@@ -64,8 +65,8 @@ public class RegEx {
 		System.out.println("\nEpsilon transitions");
 		a.afficherEpsTransit();
 		
-		System.out.println("test ens etats");
-		a.afficherTabEpsTransitEnsembleEtats(a.tabEpsTransitEnsembleEtats());
+		//System.out.println("test ens etats");
+		//a.afficherTabEpsTransitEnsembleEtats(a.tabEpsTransitEnsembleEtats());
 		
 		//a.isThereEpsTransit(a.getEpsTransit());
 		

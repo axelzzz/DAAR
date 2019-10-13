@@ -36,15 +36,15 @@ public class Main {
 			if( isLeaf(ret.root) ) 				
 				return 2;			
 			else {				
-				if( isNodeAltern(ret.root) ) 
+				if( isNodeAltern(ret.root) ) 					
 					return 2 + nbStates(ret.subTrees.get(0)) + nbStates(ret.subTrees.get(1)); 				
 				else {					
-					if( isNodeEtoile(ret.root) ) 
-						return 2 + nbStates(ret.subTrees.get(0));					
-					else
-						return nbStates(ret.subTrees.get(0)) + nbStates(ret.subTrees.get(1));
-				}
-				
+					if( isNodeEtoile(ret.root) )						
+						return 2 + nbStates(ret.subTrees.get(0));
+					
+					else 						
+						return nbStates(ret.subTrees.get(0)) + nbStates(ret.subTrees.get(1));					
+				}				
 			}
 		}
 	}
@@ -129,7 +129,7 @@ public class Main {
 		RegExTree concat = new RegExTree(RegEx.CONCAT, subTreez2);
 		
 		ArrayList<RegExTree> subTreez3 = new ArrayList<>();
-		subTreez3.add(new RegExTree(97, new ArrayList<RegExTree>()));
+		subTreez3.add(new RegExTree(46, new ArrayList<RegExTree>()));
 		subTreez3.add(concat);
 		
 		RegExTree tree = new RegExTree(RegEx.ALTERN, subTreez3);
@@ -151,8 +151,12 @@ public class Main {
 		
 		
 		
-		//S(a|g|r)+on ou S[a-z]+on
-		
+		//.
+		/*
+		RegExTree tree2 = new RegExTree(46, null);
+		Automate a2 = epsilonAutomation(tree2, 0, nbStates(tree2) );
+		a2.displayTransitions();
+		*/
 	}
 
 }
