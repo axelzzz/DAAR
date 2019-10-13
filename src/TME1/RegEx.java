@@ -36,7 +36,8 @@ public class RegEx {
     //regEx = ".|b";
     //regEx = ".|bc*";
     //regEx = "a*b|c";
-    regEx = "S(a|g|r)*on";
+    //regEx = "S(a|g|r)*on";
+    regEx = "test";
     System.out.println("  >> Parsing regEx \""+regEx+"\".");
     System.out.println("  >> ...");
     

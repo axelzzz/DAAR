@@ -170,7 +170,7 @@ public class IndexTable {
 	  
 	  String fichier1 = book;
 	
-	  File file = new File(fichier1);
+	  File file = new File("testbeds/"+fichier1);
 	  
 	  BufferedReader br = new BufferedReader(
 			  				new InputStreamReader( new FileInputStream(file), "UTF-8") );

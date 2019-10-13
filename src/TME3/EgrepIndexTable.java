@@ -53,14 +53,23 @@ public class EgrepIndexTable {
 	    whichBook = scanner.next();*/
 	    
 		//toSearch = "test";
-	    toSearch = "years";
-	    whichBook = "56667";
+	    toSearch = "test";
+	    whichBook = "9";
+//	    whichBook = "1";
+//	    whichBook = "2";
+//	    whichBook = "3";
+//	    whichBook = "4";
+//	    whichBook = "5";
+//	    whichBook = "6";
+//	    whichBook = "7";
+//	    whichBook = "8";
+//	    whichBook = "9";
 	     
-		String indexTable = "fileIndexTable"+whichBook+"-0.txt";
-		String book = whichBook+"-0.txt";
+		String indexTable = "fileIndexTable"+whichBook+".txt";
+		String book = whichBook+".txt";
 		
 		File fileIndexTable = new File(indexTable);
-		File fileBook = new File(book);
+		File fileBook = new File("testbeds/"+book);
 				
 		
 		String readLine = null;
