@@ -24,7 +24,7 @@
     </java>   
   </target>
 
-  <target name="dist" depends="init,clean"
+  <target name="dist" depends="init, compile"
         description="Generer la distribution" >
     <!-- tout mettre dans l'archive -->
     <zip basedir="." zipfile="../daar-projet-offline-WANG-ZAVIER.zip"/>

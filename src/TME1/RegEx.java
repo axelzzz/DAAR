@@ -36,7 +36,7 @@ public class RegEx {
     //regEx = ".|b";
     //regEx = ".|bc*";
     //regEx = "a*b|c";
-    regEx = "S(a|g|r)*o";
+    regEx = "S(a|g|r)*on";
     System.out.println("  >> Parsing regEx \""+regEx+"\".");
     System.out.println("  >> ...");
     
@@ -53,22 +53,19 @@ public class RegEx {
         Automate a = Main.epsilonAutomation(ret, 0, Main.nbStates(ret) );
         
         
-//        System.out.println("nb etats : "+a.getNbStates());
-//		System.out.println("\nStarting States : "+a.getNumberOfStartingState());
-//		System.out.println("Final States : "+a.getNumberOfFinalState());
-//			
-//		System.out.println();
-//		
-//		System.out.println("\nTransitions");
-//		a.displayTransitions();
-//		
-//		System.out.println("\nEpsilon transitions");
-//		a.afficherEpsTransit();
-//		
-//		System.out.println("test ens etats");
-//		a.afficherTabEpsTransitEnsembleEtats(a.tabEpsTransitEnsembleEtats());
-//		
-//		a.isThereEpsTransit(a.getEpsTransit());
+        System.out.println("nb etats : "+a.getNbLignes());
+		System.out.println("\nStarting States : "+a.getNumberOfStartingState());
+		System.out.println("Final States : "+a.getNumberOfFinalState());
+			
+		System.out.println();
+		
+		System.out.println("\nTransitions");
+		a.displayTransitions();
+		
+		System.out.println("\nEpsilon transitions");
+		a.afficherEpsTransit();
+	
+		
         System.out.println();
 		System.out.println(" ===== detminisation ===== ");
 		int I_F_State[] = new int[2]; // I_F_State[0] = NumberOfStartingState, I_F_State[1] = NumberOfFinalState
@@ -76,24 +73,33 @@ public class RegEx {
 
 		System.out.println();
 		System.out.println(" ===== readFile ===== ");
-		String filename = "56667-0.txt";
+		String filename = "testbeds/0.txt";
+//		String filename = "testbeds/1.txt";
+//		String filename = "testbeds/2.txt";
+//		String filename = "testbeds/3.txt";
+//		String filename = "testbeds/4.txt";
+//		String filename = "testbeds/5.txt";
+//		String filename = "testbeds/6.txt";
+//		String filename = "testbeds/7.txt";
+//		String filename = "testbeds/8.txt";
+//		String filename = "testbeds/9.txt";
 		// String filename =
 		// "/Users/hongxingwang/Java_workspace/DAAR_TME1/src/test.txt";
 		ArrayList<String> strList = readFile(filename);
 
 		System.out.println();
 		System.out.println(" ===== matching ===== ");
-		ArrayList<String> result = new ArrayList<String>();
+//		ArrayList<String> result = new ArrayList<String>();
 		for (String str : strList) {
 			if (!str.isEmpty()) {
 				if (matchingAlgo(str, DFA, I_F_State[0], I_F_State[1])) {
-//					System.out.println(str);
+					System.out.println(str);
 //					System.out.println();
-					result.add(str);
+//					result.add(str);
 				}
 			}
 		}
-		System.out.println(result.size() + " results ");
+//		System.out.println(result.size() + " results ");
         
         
       } catch (Exception e) {
@@ -209,7 +215,7 @@ public class RegEx {
 		while (!queue.isEmpty()) {
 			int n = queue.remove(0);
 			result.add(n);
-			for (int j = 0; j < a.getNbStates(); j++) {
+			for (int j = 0; j < a.getNbLignes(); j++) {
 				if (a.getEpsTransit()[n][j] != -1) {
 					queue.add(j);
 				}
