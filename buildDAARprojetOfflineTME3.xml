@@ -14,23 +14,14 @@
         description="compile the source " >
         <mkdir dir="build/classes"/>
         <javac srcdir="src" destdir="build/classes"/>
-  </target>
- 
-  <target name="jar">
-        <mkdir dir="build/jar"/>
-        <jar destfile="build/jar/EgrepIndexTable.jar" basedir="build/classes">
-        </jar>
-   </target>
+  </target>    
 
-  <target name="run" depends="compile"
+  <target name="run"  depends="compile"
           description="run examples">
     <echo>================ Run Object Main ================</echo>
-     <java classname="build/classes/TME3/EgrepIndexTable.class" fork="true"/>
-    	 	
-<!--
-    	<arg value="-proxyPPTI"/>
--->
-   
+     <java classname="TME3.EgrepIndexTable"  fork="true">
+     	<classpath path="build/classes"></classpath> 
+    </java>   
   </target>
 
   <target name="dist" depends="init,clean"

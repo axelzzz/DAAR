@@ -44,14 +44,17 @@ public class EgrepIndexTable {
 	
 	public static void main(String[] args) throws Exception {
 		
-		Scanner scanner = new Scanner(System.in);
+		/*Scanner scanner = new Scanner(System.in);
 	    System.out.print("  >> Please enter a word to search: ");
-	    toSearch = scanner.next();
-	      
+	    toSearch = scanner.next();*/
+	    /*  
 	    scanner = new Scanner(System.in);
 	    System.out.print("  >> Please enter the book to search in (49345 or 56667): ");
-	    whichBook = scanner.next();
-	      
+	    whichBook = scanner.next();*/
+	    
+		//toSearch = "test";
+	    toSearch = "years";
+	    whichBook = "56667";
 	     
 		String indexTable = "fileIndexTable"+whichBook+"-0.txt";
 		String book = whichBook+"-0.txt";
@@ -104,7 +107,7 @@ public class EgrepIndexTable {
 			
 			if(sp.getWord().equals(toSearch)) {
 				
-				System.out.println(sp.displayWordPos());
+				//System.out.println(sp.displayWordPos());
 				//lorsqu on le trouve, on recense toutes les lignes qui l utilisent
 				for(Position pos:sp.getPos()) {
 					

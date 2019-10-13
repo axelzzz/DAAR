@@ -356,6 +356,7 @@ public class IndexTable {
   public static void main(String[] args) {
 	  
 	  try {
+		  System.out.println("test");
 		ArrayList<StringPosition> finalLsp = processIndexTable(100, true, true, "56667-0.txt");
 	} catch (Exception e) {
 		

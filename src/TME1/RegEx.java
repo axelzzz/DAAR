@@ -1,9 +1,9 @@
 package TME1;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-
-import java.lang.Exception;
 
 public class RegEx {
   //MACROS
@@ -36,7 +36,7 @@ public class RegEx {
     //regEx = ".|b";
     //regEx = ".|bc*";
     //regEx = "a*b|c";
-    regEx = "S(a|g|r)*.n";
+    regEx = "S(a|g|r)*o";
     System.out.println("  >> Parsing regEx \""+regEx+"\".");
     System.out.println("  >> ...");
     
@@ -53,23 +53,49 @@ public class RegEx {
         Automate a = Main.epsilonAutomation(ret, 0, Main.nbStates(ret) );
         
         
-        System.out.println("nb etats : "+a.getNbStates());
-		System.out.println("\nStarting States : "+a.getNumberOfStartingState());
-		System.out.println("Final States : "+a.getNumberOfFinalState());
-			
+//        System.out.println("nb etats : "+a.getNbStates());
+//		System.out.println("\nStarting States : "+a.getNumberOfStartingState());
+//		System.out.println("Final States : "+a.getNumberOfFinalState());
+//			
+//		System.out.println();
+//		
+//		System.out.println("\nTransitions");
+//		a.displayTransitions();
+//		
+//		System.out.println("\nEpsilon transitions");
+//		a.afficherEpsTransit();
+//		
+//		System.out.println("test ens etats");
+//		a.afficherTabEpsTransitEnsembleEtats(a.tabEpsTransitEnsembleEtats());
+//		
+//		a.isThereEpsTransit(a.getEpsTransit());
+        System.out.println();
+		System.out.println(" ===== detminisation ===== ");
+		int I_F_State[] = new int[2]; // I_F_State[0] = NumberOfStartingState, I_F_State[1] = NumberOfFinalState
+		ArrayList<ArrayList<Integer>> DFA = determinisation(a, I_F_State);
+
 		System.out.println();
-		
-		System.out.println("\nTransitions");
-		a.displayTransitions();
-		
-		System.out.println("\nEpsilon transitions");
-		a.afficherEpsTransit();
-		
-		//System.out.println("test ens etats");
-		//a.afficherTabEpsTransitEnsembleEtats(a.tabEpsTransitEnsembleEtats());
-		
-		//a.isThereEpsTransit(a.getEpsTransit());
-		
+		System.out.println(" ===== readFile ===== ");
+		String filename = "56667-0.txt";
+		// String filename =
+		// "/Users/hongxingwang/Java_workspace/DAAR_TME1/src/test.txt";
+		ArrayList<String> strList = readFile(filename);
+
+		System.out.println();
+		System.out.println(" ===== matching ===== ");
+		ArrayList<String> result = new ArrayList<String>();
+		for (String str : strList) {
+			if (!str.isEmpty()) {
+				if (matchingAlgo(str, DFA, I_F_State[0], I_F_State[1])) {
+//					System.out.println(str);
+//					System.out.println();
+					result.add(str);
+				}
+			}
+		}
+		System.out.println(result.size() + " results ");
+        
+        
       } catch (Exception e) {
         System.err.println("  >> ERROR: syntax error for regEx \""+regEx+"\".");
       }
@@ -79,6 +105,216 @@ public class RegEx {
     System.out.println("  >> Parsing completed.");
     System.out.println("Goodbye Mr. Anderson.");
   }
+  
+  
+  
+  private static ArrayList<ArrayList<Integer>> determinisation(Automate a, int I_F_State[]) {
+		ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Boolean> isInitial = new ArrayList<Boolean>();
+		ArrayList<Boolean> isFinal = new ArrayList<Boolean>();
+		ArrayList<ArrayList<Integer>> charList = new ArrayList<ArrayList<Integer>>();
+
+		boolean cond = true;
+		int index = 0;
+		ArrayList<Integer> list = getSuccEpsTransit(0, a);
+		result.add(list);
+
+		do {
+			list = result.get(index);
+			if (list.contains(a.getNumberOfStartingState())) {
+				isInitial.add(true);
+			} else {
+				isInitial.add(false);
+			}
+			if (list.contains(a.getNumberOfFinalState())) {
+				isFinal.add(true);
+			} else {
+				isFinal.add(false);
+			}
+
+			ArrayList<Integer> charL = new ArrayList<Integer>();
+			for (int i = 0; i < 265; i++) {
+				charL.add(-1);
+			}
+			for (int n : list) {
+				for (int j = 0; j < 256; j++) {
+					if (a.getAutomata()[n][j] != -1) {
+
+						ArrayList<Integer> tmp = getSuccEpsTransit(a.getAutomata()[n][j], a);
+						if (!result.contains(tmp)) {
+							result.add(tmp);
+						}
+						charL.set(j, result.indexOf(tmp));
+
+					}
+				}
+			}
+			charList.add(charL);
+
+			index++;
+			if (index >= result.size()) {
+				cond = false;
+			}
+		} while (cond);
+
+//		System.out.println(" ===== checking start ===== ");
+//		System.out.println(" result.size : " + result.size());
+//		for (ArrayList<Integer> array : result) {
+//			for (int n : array) {
+//				System.out.print(n + " ");
+//			}
+//			System.out.println();
+//		}
+//		System.out.println();
+//
+//		System.out.println(" isInitial.size : " + isInitial.size());
+//		for (Boolean b : isInitial) {
+//			System.out.print(b + " ");
+//		}
+//		System.out.println();
+//
+//		System.out.println(" isFinal.size : " + isFinal.size());
+//		for (Boolean b : isFinal) {
+//			System.out.print(b + " ");
+//		}
+//		System.out.println();
+//
+//		System.out.println();
+//		System.out.println(" charList.size : " + charList.size());
+//		for (int i = 0; i < charList.size(); i++) {
+//			for (int j = 0; j < 256; j++) {
+//				if (charList.get(i).get(j) != -1) {
+//					System.out.println(i + " --" + Character.toString((char) j) + "--> " + charList.get(i).get(j));
+//
+//				}
+//			}
+//			System.out.println();
+//		}
+//
+//		System.out.println(" ===== checking end ===== ");
+
+		I_F_State[0] = isInitial.indexOf(true);
+		I_F_State[1] = isFinal.indexOf(true);
+
+		return charList;
+	}
+  
+  
+  
+  
+  private static ArrayList<Integer> getSuccEpsTransit(int debut, Automate a) {
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		ArrayList<Integer> queue = new ArrayList<Integer>();
+		queue.add(debut);
+		while (!queue.isEmpty()) {
+			int n = queue.remove(0);
+			result.add(n);
+			for (int j = 0; j < a.getNbStates(); j++) {
+				if (a.getEpsTransit()[n][j] != -1) {
+					queue.add(j);
+				}
+			}
+		}
+		return result;
+	}
+  
+  
+  
+  
+
+	private static boolean matchingAlgo(String str, ArrayList<ArrayList<Integer>> DFA, int startingState,
+			int finalState) {
+
+		int indexStr = 0;
+		while (indexStr < str.length()) {
+
+			if (str.charAt(indexStr) != ' ') {
+				boolean cond = false;
+				int index = indexStr;
+				int next_char = startingState;
+				ArrayList<Character> CharList = getNextCharList(next_char, DFA);
+
+				do {
+					cond = false;
+					if (CharList.contains(str.charAt(index)) || CharList.contains('.')) {
+
+						if (CharList.contains(str.charAt(index))) {
+
+							next_char = getNextCharIndex(str.charAt(index), DFA);
+							if (next_char == finalState) {
+								return true;
+
+							}
+							CharList = getNextCharList(next_char, DFA);
+							index++;
+							cond = true;
+
+						} else {
+
+							for (int i = 0; i < DFA.size(); i++) {
+								if (DFA.get(i).get((int) '.') != -1) {
+									next_char = DFA.get(i).get((int) '.');
+									break;
+								}
+							}
+							if (next_char == finalState) {
+								return true;
+							}
+							CharList = getNextCharList(next_char, DFA);
+							index++;
+							cond = true;
+
+						}
+
+					}
+				} while (cond && (index < str.length()));
+
+			}
+			indexStr++;
+
+		}
+
+		return false;
+	}
+
+	private static ArrayList<Character> getNextCharList(int indexChar, ArrayList<ArrayList<Integer>> DFA) {
+		ArrayList<Character> result = new ArrayList<Character>();
+
+		for (int j = 0; j < 256; j++) {
+			if (DFA.get(indexChar).get(j) != -1) {
+				result.add((char) j);
+			}
+		}
+
+		return result;
+	}
+
+	private static int getNextCharIndex(char c, ArrayList<ArrayList<Integer>> DFA) {
+		int result = -1;
+
+		for (int i = 0; i < DFA.size(); i++) {
+			if (DFA.get(i).get((int) c) != -1) {
+				return DFA.get(i).get((int) c);
+			}
+		}
+
+		return result;
+	}
+
+	private static ArrayList<String> readFile(String filename) throws Exception {
+		ArrayList<String> strList = new ArrayList<String>();
+		BufferedReader buffered_inputstreamreader = new BufferedReader(
+				new InputStreamReader(new FileInputStream(filename)));
+		String line;
+		while ((line = buffered_inputstreamreader.readLine()) != null) {
+			strList.add(line);
+		}
+		buffered_inputstreamreader.close();
+		return strList;
+	}
+	
+	
+	
 
   //FROM REGEX TO SYNTAX TREE
   private static RegExTree parse() throws Exception {
