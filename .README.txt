@@ -1,0 +1,4 @@
+Pour exécuter le TME1 (resp 2, 3) -> 
+
+	clic droit sur buildDAARprojetOfflineTME1.xml(resp 2, 3) puis Run As
+	puis choisir cible Run puis apply
