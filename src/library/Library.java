@@ -12,6 +12,7 @@ public class Library {
 
 	private static Library library = null;
 	private static final String DATABASE_PATH = "/root/bigFatWorkspace/M2/DAAR/DAAR_Offline/database";
+	private static final String TESTBED_PATH = "/root/bigFatWorkspace/M2/DAAR/DAAR_Offline/testbeds";
 	
 	private List<Book> books = new ArrayList<>();
 	
@@ -28,7 +29,7 @@ public class Library {
 	
 	public static Library getInstance() {
 		if(library == null)
-			library = new Library(DATABASE_PATH);
+			library = new Library(TESTBED_PATH);
 		
 		return library;
 	}
