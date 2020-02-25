@@ -74,7 +74,7 @@ public class RegEx {
 
 		System.out.println();
 		System.out.println(" ===== readFile ===== ");
-		String filename = "testbeds/0.txt";
+		//String filename = "testbeds/0.txt";
 //		String filename = "testbeds/1.txt";
 //		String filename = "testbeds/2.txt";
 //		String filename = "testbeds/3.txt";
@@ -83,7 +83,7 @@ public class RegEx {
 //		String filename = "testbeds/6.txt";
 //		String filename = "testbeds/7.txt";
 //		String filename = "testbeds/8.txt";
-//		String filename = "testbeds/9.txt";
+		String filename = "testbeds/9.txt";
 		// String filename =
 		// "/Users/hongxingwang/Java_workspace/DAAR_TME1/src/test.txt";
 		ArrayList<String> strList = readFile(filename);
