@@ -58,7 +58,7 @@ public class Parser {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		return "Error : no title found";
+		return "";
 	}
 	
 	
@@ -78,7 +78,7 @@ public class Parser {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		return "Error : no author found";
+		return "";
 	}
     
 
@@ -98,7 +98,7 @@ public class Parser {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		return "Error : no posting date found";
+		return "";
 	}
     
     
@@ -118,7 +118,7 @@ public class Parser {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		return "Error : no release date found";
+		return "";
 	}
     
     
@@ -138,7 +138,7 @@ public class Parser {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		return "Error : no language found";
+		return "";
 	}
     
 	public static void main(String[] args) {
