@@ -13,7 +13,7 @@ import KMP.KMP;
 public class Library {
 
 	private static Library library = null;
-	private static final String DATABASE_PATH = "/root/bigFatWorkspace/M2/DAAR/DAAR_Offline/database";
+	private static final String DATABASE_PATH = "/root/bigFatWorkspace/M2/DAAR/database500";
 	private static final String TESTBED_PATH = "/root/bigFatWorkspace/M2/DAAR/DAAR_Offline/testbeds";
 	
 	private List<Book> books = new ArrayList<>();
@@ -31,7 +31,7 @@ public class Library {
 	
 	public static Library getInstance() {
 		if(library == null)
-			library = new Library(TESTBED_PATH);
+			library = new Library(DATABASE_PATH);
 		
 		return library;
 	}
@@ -45,7 +45,7 @@ public class Library {
 		List<Book> filteredBooks = new ArrayList<>();
 		
 		try {
-			List<String> result_KMP = KMP.recherche(pattern, TESTBED_PATH);			
+			List<String> result_KMP = KMP.recherche(pattern, DATABASE_PATH);			
 			
 			for(String filepath : result_KMP)
 				filteredBooks.add(new Book(filepath));			
