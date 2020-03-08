@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import KMP.KMP;
+
 public class Library {
 
 	private static Library library = null;
@@ -34,7 +36,28 @@ public class Library {
 		return library;
 	}
 	
+	
 	public List<Book> getBooks() { return books; }
+	
+	
+	public List<Book> getFilteredBooks(String pattern) {		
+		
+		List<Book> filteredBooks = new ArrayList<>();
+		
+		try {
+			List<String> result_KMP = KMP.recherche(pattern, TESTBED_PATH);			
+			
+			for(String filepath : result_KMP)
+				filteredBooks.add(new Book(filepath));			
+			
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}
+		
+		return filteredBooks;
+		
+	}
+	
 	
 	public int size() { return books.size(); }
 }
